@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Logo ou título da aplicação -->
+    <!-- texto registo -->
     <TextView
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
@@ -15,39 +15,76 @@
         android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="Registo"
-        android:textColor="#000"
-        android:textSize="24sp" />
+        android:textColor="#00cccc"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:textSize="40sp" />
 
     <!-- Campo Email -->
     <EditText
-        android:id="@+id/emailField"
+        android:id="@+id/emailField_Reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@android:drawable/edit_text"
+        android:background="@drawable/text_field_round"
         android:hint="Email"
-        android:padding="12dp" />
+        android:padding="12dp"
+        />
+
+    <!-- Campo User -->
+    <EditText
+        android:id="@+id/UserField_Reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_field_round"
+        android:hint="Nome de Utilizador"
+        android:padding="12dp"
+        />
+
 
     <!-- Campo Password -->
     <EditText
-        android:id="@+id/passwordField"
+        android:id="@+id/passwordField_Reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_field_round"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="12dp" />
+        android:padding="12dp"
+        />
+
+    <!-- Campo Password Confirmar-->
+    <EditText
+        android:id="@+id/passwordConfField_Reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_field_round"
+        android:hint="Confirme a Password"
+        android:padding="12dp"
+        />
+
+
+    <!-- Botao de Registar -->
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00cccc"
+        android:padding="12dp"
+        android:text="Registar"
+        android:textColor="#FFF" />
+
 
     <!-- Botao de login -->
     <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+        android:id="@+id/backtologinButton"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#00cccc"
-        android:elevation="4dp"
+        android:backgroundTint="#00b3b3"
         android:padding="12dp"
-        android:text="Registo"
+        android:text="Já tenho Conta!"
         android:textColor="#FFF" />
 
 </LinearLayout>

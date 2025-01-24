@@ -17,15 +17,17 @@
         android:layout_gravity="center"
         android:src="@drawable/logo" />
 
-    <!-- Texto Login -->
+    <!-- Texto titulo -->
     <TextView
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:gravity="center"
-        android:text="Login"
-        android:textColor="#000"
+        android:text="Pocket Knowledge"
+        android:textColor="#00cccc"
+        android:textStyle="bold"
+        android:fontFamily="serif"
         android:textSize="24sp" />
 
     <!-- Campo Email -->
@@ -34,9 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@android:drawable/edit_text"
+        android:background="@drawable/text_field_round"
         android:hint="Email"
-        android:padding="12dp" />
+        android:padding="12dp"
+         />
 
     <!-- Campo Password -->
     <EditText
@@ -44,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:background="@android:drawable/edit_text"
+        android:background="@drawable/text_field_round"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="12dp" />
@@ -52,10 +55,9 @@
     <!-- Botao de login -->
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#00cccc"
-        android:elevation="4dp"
         android:padding="12dp"
         android:text="Login"
         android:textColor="#FFF" />
@@ -63,10 +65,9 @@
     <!-- Botao para levar ao ecra de registo -->
     <Button
         android:id="@+id/registerScreenButton"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#00b3b3"
-        android:elevation="4dp"
         android:padding="12dp"
         android:text="Ainda não tem conta? Registe-se!"
         android:textColor="#FFF" />
