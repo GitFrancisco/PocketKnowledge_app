@@ -1,6 +1,8 @@
 package pt.ipt.dam.pocketknowledge
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,14 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Elemento Botao de Registo
+        val registerButton: Button = findViewById(R.id.registerScreenButton)
+        // Configurar o botao para abrir outra activity
+        registerButton.setOnClickListener {
+            val intent = Intent(this, RegisterScreenActivity::class.java)
+            startActivity(intent)
         }
     }
 }
