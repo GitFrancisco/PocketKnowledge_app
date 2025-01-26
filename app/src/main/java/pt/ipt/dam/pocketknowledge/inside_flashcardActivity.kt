@@ -75,8 +75,8 @@ class inside_flashcardActivity : AppCompatActivity() {
     // Classe ShakeDetector para detectar agitação
     class ShakeDetector(private val onShake: () -> Unit) : SensorEventListener {
 
-        private val shakeThreshold = 12.0f // Limite para considerar agitação
-        private val shakeTimeLapse = 500 // Intervalo mínimo entre agitações (ms)
+        private val shakeThreshold = 20.0f // Limite para considerar agitação
+        private val shakeTimeLapse = 1000 // Intervalo mínimo entre agitações (ms)
         private var lastShakeTime: Long = 0
 
         override fun onSensorChanged(event: SensorEvent?) {
@@ -97,10 +97,6 @@ class inside_flashcardActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-            // Não necessário para esta implementação
         }
     }
 }
