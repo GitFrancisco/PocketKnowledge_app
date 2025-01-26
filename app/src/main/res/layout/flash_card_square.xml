@@ -5,15 +5,19 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp">
+    card_view:cardElevation="4dp"
+    card_view:cardBackgroundColor="#00cccc"
+    >
 
     <TextView
         android:id="@+id/item_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Texto TESTE teste...?"
-        android:textSize="16sp" />
-
+        android:padding="16dp"
+        android:text="Texto Teste"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="serif"
+        android:textStyle="bold"/>
 </androidx.cardview.widget.CardView>

@@ -25,19 +25,11 @@ class MainActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.registerScreenButton)
         // Configurar o botao para abrir outra activity
         registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterScreenActivity::class.java)
+            val intent = Intent(this, all_flashcards_screenActivity::class.java)
             startActivity(intent)
         }
 
-        // Initialize RecyclerView
-        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(this, 2) // 2 colunas
-        val items = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
-        val adapter = ItemAdapter(items, this)
-        recyclerView.adapter = adapter
+
     }
 
-    override fun onItemClick(position: Int) {
-        // Ação quando um item é clicado
-    }
 }

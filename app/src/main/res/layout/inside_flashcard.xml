@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- Primeiro layout -->
+    <LinearLayout
+        android:id="@+id/first_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/question_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            card_view:cardCornerRadius="24dp"
+            card_view:cardBackgroundColor="#00cccc"
+            card_view:cardElevation="12dp">
+
+            <TextView
+                android:id="@+id/question_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="Pergunta"
+                android:fontFamily="serif"
+                android:textSize="44sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:rotation="90" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- Segundo layout -->
+    <LinearLayout
+        android:id="@+id/second_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#FFCCCC"
+        android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/answer_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            card_view:cardCornerRadius="24dp"
+            card_view:cardBackgroundColor="#FF4444"
+            card_view:cardElevation="12dp">
+
+            <TextView
+                android:id="@+id/answer_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="Resposta"
+                android:fontFamily="serif"
+                android:textSize="44sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:rotation="90" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</FrameLayout>

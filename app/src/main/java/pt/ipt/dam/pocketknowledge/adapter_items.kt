@@ -6,15 +6,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter(private val items: List<String>, private val itemClickListener: OnItemClickListener) :
-    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(
+    private val items: List<String>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
+    // Interface para clique nos itens
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.flash_card_square, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.flash_card_square, parent, false)
         return ItemViewHolder(view)
     }
 

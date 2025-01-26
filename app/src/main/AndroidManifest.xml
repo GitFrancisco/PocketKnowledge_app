@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterScreenActivity" />
+        <activity android:name=".all_flashcards_screenActivity" />
     </application>
 
 </manifest>
