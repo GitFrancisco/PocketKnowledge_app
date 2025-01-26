@@ -98,5 +98,9 @@ class inside_flashcardActivity : AppCompatActivity() {
                 }
             }
         }
+
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+            // Não necessário para esta implementação
+        }
     }
 }
