@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterScreenActivity" />
+        <activity android:name=".all_flashcards_screenActivity" />
+        <activity android:name=".inside_flashcardActivity"/>
     </application>
 
 </manifest>
