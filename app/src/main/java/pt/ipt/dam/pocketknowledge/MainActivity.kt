@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.registerScreenButton)
         // Configurar o botao para abrir outra activity
         registerButton.setOnClickListener {
-            val intent = Intent(this, inside_flashcardActivity::class.java)
+            val intent = Intent(this, RegisterScreenActivity::class.java)
             startActivity(intent)
         }
 

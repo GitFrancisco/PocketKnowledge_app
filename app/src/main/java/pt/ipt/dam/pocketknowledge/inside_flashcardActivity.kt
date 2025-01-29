@@ -35,7 +35,7 @@ class inside_flashcardActivity : AppCompatActivity() {
         secondLayout = findViewById(R.id.second_layout)
 
         // Inicializa o botão de favoritos
-        favoriteButton = findViewById(R.id.favoriteButtonInside) // Certifique-se que o ID no XML é o mesmo
+        favoriteButton = findViewById(R.id.favoriteButtonInside)
 
         favoriteButton.setOnClickListener {
             toggleFavorite()
@@ -97,7 +97,7 @@ class inside_flashcardActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         shakeDetector?.let {
-            sensorManager.unregisterListener(it) // Desregistra o listener do acelerômetro
+            sensorManager.unregisterListener(it) // Desregistra o listener do acelerómetro
         }
     }
 

@@ -4,6 +4,7 @@ import pt.ipt.dam.pocketknowledge.model.authResponse
 import pt.ipt.dam.pocketknowledge.model.flashcards
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.model.userLogin
+import pt.ipt.dam.pocketknowledge.model.userRegister
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,6 +16,10 @@ interface api_service {
     // Autenticar o utilizador
     @POST("api/users/login")
     fun login(@Body userLogin: userLogin): Call<authResponse>
+
+    // Registar um novo utilizador
+    @POST("api/users/register")
+    fun register(@Body userRegister: userRegister): Call<Void>
 
     // Obter os dados do utilizador autenticado
     @GET("api/users/me")
