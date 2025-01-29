@@ -2,6 +2,7 @@ package pt.ipt.dam.pocketknowledge
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -21,8 +22,9 @@ class inside_flashcardActivity : AppCompatActivity() {
     private lateinit var gestureDetector: GestureDetector
     private lateinit var sensorManager: SensorManager
     private var shakeDetector: ShakeDetector? = null
-    private lateinit var favoriteButton: ImageButton
-    private var isFavorited = false // Estado do favorito
+
+    private lateinit var favoriteButton: ImageButton // Botão de favoritos
+    private var isFavorited: Boolean = false // Estado inicial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +33,18 @@ class inside_flashcardActivity : AppCompatActivity() {
         // Inicializa os layouts
         firstLayout = findViewById(R.id.first_layout)
         secondLayout = findViewById(R.id.second_layout)
-        favoriteButton = findViewById(R.id.favoriteButtonInside)
+
+        // Inicializa o botão de favoritos
+        favoriteButton = findViewById(R.id.favoriteButtonInside) // Certifique-se que o ID no XML é o mesmo
+
+        favoriteButton.setOnClickListener {
+            toggleFavorite()
+        }
 
         // Configura o GestureDetector para detectar dois cliques
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(event: MotionEvent): Boolean {
-                toggleLayout()
+                toggleLayout() // Alterna os layouts ao detectar dois cliques
                 return true
             }
         })
@@ -51,17 +59,28 @@ class inside_flashcardActivity : AppCompatActivity() {
             sensorManager.registerListener(shakeDetector, it, SensorManager.SENSOR_DELAY_UI)
         }
 
-        // Configura o listener de toque para alternar layouts
+        // Configura o listener de toque para ambos os layouts
         val touchListener = View.OnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
         }
         firstLayout.setOnTouchListener(touchListener)
         secondLayout.setOnTouchListener(touchListener)
+    }
 
-        // Configura o clique no botão de favoritos
-        favoriteButton.setOnClickListener {
-            toggleFavorite()
+    private fun toggleFavorite() {
+        // Obtém o drawable do botão e verifica se é uma animação
+        val drawable = favoriteButton.drawable
+        if (drawable is AnimatedVectorDrawable) {
+            drawable.start() // Inicia a animação em dispositivos Android 5.0+ (Lollipop)
+        } else if (drawable is AnimatedVectorDrawableCompat) {
+            drawable.start() // Compatível com versões mais antigas do Android
         }
+
+        // Alterna o estado de favorito e atualiza o ícone
+        isFavorited = !isFavorited
+        favoriteButton.setImageResource(
+            if (isFavorited) R.drawable.baseline_star_24 else R.drawable.baseline_star_border_24
+        )
     }
 
     private fun toggleLayout() {
@@ -73,12 +92,6 @@ class inside_flashcardActivity : AppCompatActivity() {
             firstLayout.visibility = View.VISIBLE
             secondLayout.visibility = View.GONE
         }
-    }
-
-    private fun toggleFavorite() {
-        val avd = favoriteButton.drawable as AnimatedVectorDrawable
-        avd.start() // Inicia a animação
-        isFavorited = !isFavorited // Alterna o estado do favorito
     }
 
     override fun onDestroy() {
