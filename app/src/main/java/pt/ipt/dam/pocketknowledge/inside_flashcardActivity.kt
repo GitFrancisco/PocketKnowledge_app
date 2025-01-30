@@ -11,9 +11,17 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import pt.ipt.dam.pocketknowledge.model.flashcards
+import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class inside_flashcardActivity : AppCompatActivity() {
 
@@ -25,6 +33,9 @@ class inside_flashcardActivity : AppCompatActivity() {
 
     private lateinit var favoriteButton: ImageButton // Botão de favoritos
     private var isFavorited: Boolean = false // Estado inicial
+
+    private lateinit var question_text: TextView // Elemento pergunta
+    private lateinit var answer_text: TextView // Elemento resposta
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +76,20 @@ class inside_flashcardActivity : AppCompatActivity() {
         }
         firstLayout.setOnTouchListener(touchListener)
         secondLayout.setOnTouchListener(touchListener)
+
+        // Elemento pergunta
+        question_text = findViewById(R.id.question_text)
+        // Elemento answer
+        answer_text = findViewById(R.id.answer_text)
+
+        // Obter o ID do Flashcard passado pela Intent
+        val flashcardId = intent.getIntExtra("FLASHCARD_ID", -1)
+
+        if (flashcardId != -1) {
+            fetchFlashcardById(flashcardId)
+        } else {
+            Toast.makeText(this, "Erro ao carregar flashcard", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun toggleFavorite() {
@@ -131,5 +156,33 @@ class inside_flashcardActivity : AppCompatActivity() {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
             // Não necessário para esta implementação
         }
+    }
+
+    // Função para buscar um flashcard específico da API
+    private fun fetchFlashcardById(flashcardId: Int) {
+        // Fazer a chamada à API
+        val call = RetrofitInitializer().apiService().getFlashcardById(flashcardId)
+
+        // Callbacks
+        call.enqueue(object : Callback<flashcards> {
+            override fun onResponse(call: Call<flashcards>, response: Response<flashcards>) {
+                // Verifica se a resposta é bem sucedida
+                if (response.isSuccessful) {
+                    // Obter o flashcard
+                    val flashcard = response.body()
+                    // Verifica se o flashcard não é nulo
+                    if (flashcard != null) {
+                        question_text.text = flashcard.question
+                        answer_text.text = flashcard.answer
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Flashcard não encontrado.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<flashcards>, t: Throwable) {
+                Toast.makeText(applicationContext, "Erro na conexão.", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

@@ -1,5 +1,6 @@
 package pt.ipt.dam.pocketknowledge
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +39,11 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item clicado: ${items[position]}", Toast.LENGTH_SHORT).show()
         // Implementação a abertura do flashcard (+1 no ID para corresponder com a base de dados)
+        val intent = Intent(this, inside_flashcardActivity::class.java)
 
+        // Enviar o ID correto baseado na posição clicada
+        intent.putExtra("FLASHCARD_ID", position + 1)
+        startActivity(intent) // Iniciar a nova Activity
 
     }
 
@@ -59,7 +64,7 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
                         // Atualiza a lista e notifica o adapter
                         items.clear()
                         items.addAll(flashcards.map { it.question })
-                        adapter.notifyDataSetChanged() // Notifica a atualização dos dados
+                        adapter.notifyDataSetChanged()
                     }
                 } else {
                     Toast.makeText(applicationContext, "Erro ao carregar flashcards...", Toast.LENGTH_SHORT).show()

@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface api_service {
     // ### USERS ###
@@ -26,8 +27,13 @@ interface api_service {
     fun getUserData(@Header("Authorization") token: String): Call<userData>
 
     // ### FLASHCARDS ###
+    // Obter todos os flashcards
     @GET("api/flashcards/list")
     fun getFlashcards(): Call<List<flashcards>>
+
+    // Obter um flashcard por ID
+    @GET("api/flashcards/find/{id}")
+    fun getFlashcardById(@Path("id") id: Int): Call<flashcards>
 
     // ### TEMAS ###
 }
