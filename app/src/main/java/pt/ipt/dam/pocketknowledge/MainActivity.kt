@@ -77,6 +77,9 @@ class MainActivity : AppCompatActivity() {
                         saveToken(authResponse.token)
                         // Exibe um Toast de boas-vindas ao utilizador
                         welcomeUser()
+                        // Redireciona o utilizador para a activity de flashcards
+                        val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                        startActivity(intent)
                     }
                 } else {
                     // Exibe uma mensagem de erro ao utilizador
