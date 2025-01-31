@@ -8,6 +8,7 @@ import pt.ipt.dam.pocketknowledge.model.userLogin
 import pt.ipt.dam.pocketknowledge.model.userRegister
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -39,6 +40,10 @@ interface api_service {
     // Criar um novo flashcard
     @POST("api/flashcards/create")
     fun createFlashcard(@Body addFlashcard: addFlashcard): Call<Void>
+
+    // Apagar um flashcard
+    @DELETE("api/flashcards/delete/{id}")
+    fun deleteFlashcard(@Path("id") id: Int): Call<Void>
 
     // ### TEMAS ###
 }

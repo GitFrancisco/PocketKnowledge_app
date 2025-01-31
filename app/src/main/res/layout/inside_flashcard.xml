@@ -19,6 +19,15 @@
         android:gravity="center"
         android:adjustViewBounds="true"/>
 
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="153dp"
+        android:text="Apagar"
+        android:visibility="gone"
+        />
+
     <ImageButton
         android:id="@+id/favoriteButtonInside"
         android:layout_width="60dp"

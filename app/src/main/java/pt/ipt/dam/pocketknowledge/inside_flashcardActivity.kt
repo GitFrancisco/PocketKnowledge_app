@@ -19,10 +19,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam.pocketknowledge.model.flashcards
+import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class inside_flashcardActivity : AppCompatActivity() {
 
@@ -37,6 +39,9 @@ class inside_flashcardActivity : AppCompatActivity() {
 
     private lateinit var question_text: TextView // Elemento pergunta
     private lateinit var answer_text: TextView // Elemento resposta
+    private lateinit var deleteButton: Button // Elemento botão de apagar
+
+    private var flashcardID by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +95,12 @@ class inside_flashcardActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Elemento Botao de apagar
+        deleteButton = findViewById(R.id.deleteButton)
+        deleteButton.setOnClickListener {
+            deleteFlashcard(flashcardID)
+        }
+
         // Obter o ID do Flashcard passado pela Intent
         val flashcardId = intent.getIntExtra("FLASHCARD_ID", -1)
 
@@ -98,6 +109,8 @@ class inside_flashcardActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Erro ao carregar flashcard", Toast.LENGTH_SHORT).show()
         }
+
+        fetchUserData()
     }
 
     private fun toggleFavorite() {
@@ -182,6 +195,7 @@ class inside_flashcardActivity : AppCompatActivity() {
                     if (flashcard != null) {
                         question_text.text = flashcard.question
                         answer_text.text = flashcard.answer
+                        flashcardID = flashcard.id
                     }
                 } else {
                     Toast.makeText(applicationContext, "Flashcard não encontrado.", Toast.LENGTH_SHORT).show()
@@ -190,6 +204,66 @@ class inside_flashcardActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<flashcards>, t: Throwable) {
                 Toast.makeText(applicationContext, "Erro na conexão.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun deleteFlashcard(id: Int) {
+        val call = RetrofitInitializer().apiService().deleteFlashcard(id)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    // Sucesso
+                    Toast.makeText(applicationContext, "Flashcard apagado com sucesso!", Toast.LENGTH_SHORT).show()
+
+                    // Redireciona para o ecrã com todos os flashcards
+                    val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    //O flashcard não foi encontrado ou outro problema
+                    Toast.makeText(applicationContext, "Erro ao apagar flashcard.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                // Falha de conexão ou erro desconhecido
+                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+    // Função para buscar os dados do utilizador autenticado
+    private fun fetchUserData() {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Criar uma instância do RetrofitInitializer e acessar o serviço da API
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada à API para obter os dados do utilizador autenticado
+        apiService.getUserData("Bearer $token").enqueue(object : Callback<userData> {
+            override fun onResponse(call: Call<userData>, response: Response<userData>) {
+                if (response.isSuccessful) {
+                    // Obter os dados do utilizador
+                    val userData = response.body()
+                    // Verificar se os dados do utilizador não são nulos
+                    if (userData != null) {
+                        val role = userData.Role
+                        if (role == "admin"){
+                            // Se o utilizador for administrador, exibir o botão de apagar flashcard
+                            deleteButton.visibility = Button.VISIBLE
+                        }
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // Exibe uma mensagem de erro ao utilizador
+            override fun onFailure(call: Call<userData>, t: Throwable) {
+                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
             }
         })
     }

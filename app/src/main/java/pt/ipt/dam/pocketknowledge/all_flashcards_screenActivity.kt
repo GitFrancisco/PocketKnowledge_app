@@ -16,7 +16,7 @@ import retrofit2.Response
 
 class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
 
-    private var items = mutableListOf<String>() // Lista de flashcards
+    private var items = mutableListOf<flashcards>() // Lista de flashcards
     private lateinit var adapter: ItemAdapter // Adapter
     private lateinit var recyclerView: RecyclerView // RecyclerView
     private lateinit var createButton: Button
@@ -31,7 +31,7 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
         recyclerView.setHasFixedSize(true)
 
         // Configurar o Adapter
-        adapter = ItemAdapter(items, this)
+        adapter = ItemAdapter(items.map { it.question }, this)
         recyclerView.adapter = adapter
 
         // Inicializar o botão de criar flashcard
@@ -49,12 +49,13 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
 
     // Implementação do onclick
     override fun onItemClick(position: Int) {
-        //Toast.makeText(this, "Item clicado: ${items[position]}", Toast.LENGTH_SHORT).show()
-        // Implementação a abertura do flashcard (+1 no ID para corresponder com a base de dados)
+        // Obter o flashcard selecionado
+        val selectedFlashcard = items[position]
+        // Implementação a abertura do flashcard
         val intent = Intent(this, inside_flashcardActivity::class.java)
 
         // Enviar o ID correto baseado na posição clicada
-        intent.putExtra("FLASHCARD_ID", position + 1)
+        intent.putExtra("FLASHCARD_ID", selectedFlashcard.id)
         startActivity(intent) // Iniciar a nova Activity
 
     }
@@ -73,9 +74,11 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
                     val flashcards = response.body()
                     // Verifica se a lista não é nula
                     if (flashcards != null) {
-                        // Atualiza a lista e notifica o adapter
+                        // Atualiza a lista
                         items.clear()
-                        items.addAll(flashcards.map { it.question })
+                        items.addAll(flashcards)
+                        adapter = ItemAdapter(items.map { it.question }, this@all_flashcards_screenActivity)
+                        recyclerView.adapter = adapter // Atualizar o adapter com os novos dados
                         adapter.notifyDataSetChanged()
                     }
                 } else {
