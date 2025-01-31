@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pt.ipt.dam.pocketknowledge.ItemAdapter
 import pt.ipt.dam.pocketknowledge.R
+import pt.ipt.dam.pocketknowledge.all_flashcards_screenActivity
 import pt.ipt.dam.pocketknowledge.inside_flashcardActivity
 import pt.ipt.dam.pocketknowledge.model.flashcards
 import pt.ipt.dam.pocketknowledge.model.themes
@@ -42,8 +43,11 @@ class CategoriesFragment : Fragment(R.layout.categories_screen), ItemAdapter.OnI
     override fun onItemClick(position: Int) {
         // Obter o tema selecionado
         val selectedTheme = items[position]
-        // Implementação a abertura do tema
-        Toast.makeText(requireContext(), "Tema selecionado: ${selectedTheme.theme}", Toast.LENGTH_SHORT).show()
+        // Implementação a abertura da lista de flashcards baseados no tema
+        val intent = Intent(requireContext(), all_flashcards_screenActivity::class.java)
+        // Enviar o ID correto baseado na posição clicada
+        intent.putExtra("THEME_ID", selectedTheme.id)
+        startActivity(intent) // Iniciar a nova Activity
     }
 
     // Buscar os temas da API

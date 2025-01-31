@@ -2,7 +2,9 @@ package pt.ipt.dam.pocketknowledge.retrofit.service
 
 import pt.ipt.dam.pocketknowledge.model.addFlashcard
 import pt.ipt.dam.pocketknowledge.model.authResponse
+import pt.ipt.dam.pocketknowledge.model.createFlashcardResponse
 import pt.ipt.dam.pocketknowledge.model.flashcards
+import pt.ipt.dam.pocketknowledge.model.mapFlashcardToTheme
 import pt.ipt.dam.pocketknowledge.model.themes
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.model.userLogin
@@ -40,7 +42,7 @@ interface api_service {
 
     // Criar um novo flashcard
     @POST("api/flashcards/create")
-    fun createFlashcard(@Body addFlashcard: addFlashcard): Call<Void>
+    fun createFlashcard(@Body addFlashcard: addFlashcard): Call<createFlashcardResponse>
 
     // Apagar um flashcard
     @DELETE("api/flashcards/delete/{id}")
@@ -50,4 +52,12 @@ interface api_service {
     // Obter todos os temas
     @GET("api/themes/list")
     fun getThemes(): Call<List<themes>>
+
+    // Obter os flashcards de um tema
+    @GET("api/themes/{id}/flashcards")
+    fun getFlashcardsByTheme(@Path("id") id: Int): Call<List<flashcards>>
+
+    // Fazer o mapeamento de um flashcard para um tema
+    @POST("api/themes/flashcard-theme/create")
+    fun mapFlashcardToTheme(@Body mapFlashcardToTheme: mapFlashcardToTheme ): Call<Void>
 }

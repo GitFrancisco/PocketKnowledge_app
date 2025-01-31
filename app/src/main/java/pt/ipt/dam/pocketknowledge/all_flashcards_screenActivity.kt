@@ -34,15 +34,21 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
         adapter = ItemAdapter(items.map { it.question }, this)
         recyclerView.adapter = adapter
 
+        // Obter o ID do Tema passado pela Intent
+        val themeId = intent.getIntExtra("THEME_ID", -1)
+
         // Inicializar o botão de criar flashcard
         createButton = findViewById(R.id.CreateFlashcardButton)
         createButton.setOnClickListener {
             val intent = Intent(this, CreateFlashcardActivity::class.java)
             startActivity(intent)
+            // Enviar o ID correto baseado na posição clicada
+            intent.putExtra("THEME_ID", themeId)
+            startActivity(intent) // Iniciar a nova Activity
         }
 
         // Buscar os flashcards da API
-        fetchFlashcards()
+        fetchFlashcards(themeId)
         // Buscar os dados do utilizador autenticado
         fetchUserData()
     }
@@ -57,13 +63,12 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
         // Enviar o ID correto baseado na posição clicada
         intent.putExtra("FLASHCARD_ID", selectedFlashcard.id)
         startActivity(intent) // Iniciar a nova Activity
-
     }
 
     // Função para buscar os flashcards da API
-    private fun fetchFlashcards() {
+    private fun fetchFlashcards(THEME_ID: Int) {
         // Fazer a chamada à API
-        val call = RetrofitInitializer().apiService().getFlashcards()
+        val call = RetrofitInitializer().apiService().getFlashcardsByTheme(THEME_ID)
 
         call.enqueue(object : Callback<List<flashcards>> {
             // Callbacks

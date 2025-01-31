@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam.pocketknowledge.model.addFlashcard
+import pt.ipt.dam.pocketknowledge.model.createFlashcardResponse
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
 import retrofit2.Call
@@ -18,6 +19,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
     private lateinit var questionInput: EditText
     private lateinit var answerInput: EditText
     private lateinit var createFlashcardButton: Button
+    private var themeId by Delegates.notNull<Int>()
     private var userId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,9 @@ class CreateFlashcardActivity : AppCompatActivity() {
             }
         )
 
+        // Obter o ID do Tema passado pela Intent
+        themeId = intent.getIntExtra("THEME_ID", -1)
+
         fetchUserData()
 
     } // ON CREATE
@@ -55,19 +60,26 @@ class CreateFlashcardActivity : AppCompatActivity() {
         val flashcard = addFlashcard(question, answer, userId)
 
         // Fazer uma chamada à API para criar um flashcard
-        apiService.createFlashcard(flashcard).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        apiService.createFlashcard(flashcard).enqueue(object : Callback<createFlashcardResponse> {
+            override fun onResponse(call: Call<createFlashcardResponse>, response: Response<createFlashcardResponse>) {
                 if (response.isSuccessful) {
                     Toast.makeText(applicationContext, "Flashcard criado com sucesso.", Toast.LENGTH_SHORT).show()
-                    // Redirecionar o utilizador para a activity de flashcards
-                    val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                    // Obter o ID do flashcard criado
+                    val flashcardId = response.body()?.id
+                    Toast.makeText(applicationContext, "Flashcard ID: $flashcardId", Toast.LENGTH_SHORT).show()
+                    if (flashcardId != null) {
+                        // Mapear o flashcard para o tema
+                        mapFlashcardToTheme(flashcardId)
+                    }
+                    // Redirecionar o utilizador para a MainFragmentActivity
+                    val intent = Intent(applicationContext, MainFragmentActivity::class.java)
                     startActivity(intent)
                 } else {
                     Toast.makeText(applicationContext, "Erro ao criar flashcard.", Toast.LENGTH_SHORT).show()
                 }
             }
             // Exibe uma mensagem de erro ao utilizador
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<createFlashcardResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
             }
         })
@@ -109,6 +121,26 @@ class CreateFlashcardActivity : AppCompatActivity() {
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<userData>, t: Throwable) {
+                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun mapFlashcardToTheme(flashcardId : Int) {
+        // Criar uma instância do RetrofitInitializer e acessar o serviço da API
+        val apiService = RetrofitInitializer().apiService()
+
+        // Criar um objeto mapFlashcardToTheme com os dados fornecidos
+        val mapFlashcard =
+            pt.ipt.dam.pocketknowledge.model.mapFlashcardToTheme(flashcardId, themeId)
+
+        // Fazer uma chamada à API para mapear um flashcard para um tema
+        apiService.mapFlashcardToTheme(mapFlashcard).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+            }
+            // Exibe uma mensagem de erro ao utilizador
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
             }
         })

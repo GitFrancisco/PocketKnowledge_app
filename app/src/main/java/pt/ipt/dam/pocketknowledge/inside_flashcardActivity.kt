@@ -88,13 +88,6 @@ class inside_flashcardActivity : AppCompatActivity() {
         // Elemento answer
         answer_text = findViewById(R.id.answer_text)
 
-        // Elemento Botao de voltar
-        val backButton : Button = findViewById(R.id.BackButtonAllFlashcards)
-        backButton.setOnClickListener(){
-            val intent = Intent(this, all_flashcards_screenActivity::class.java)
-            startActivity(intent)
-        }
-
         // Elemento Botao de apagar
         deleteButton = findViewById(R.id.deleteButton)
         deleteButton.setOnClickListener {
