@@ -8,16 +8,6 @@
     android:background="#F5F5F5">
 
 
-    <Button
-        android:id="@+id/BackButtonAllFlashcards"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#00b3b3"
-        android:padding="6dp"
-        android:text="⬅ voltar"
-        android:textColor="#FFF"
-        android:textSize="17sp" />
-
 
     <TextView
         android:id="@+id/fav_title"

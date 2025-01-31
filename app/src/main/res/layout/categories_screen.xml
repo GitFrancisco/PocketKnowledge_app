@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="550dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F5F5F5">
-
-
-    <Button
-        android:id="@+id/BackButtonAllFlashcards"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#00b3b3"
-        android:padding="6dp"
-        android:text="⬅ voltar"
-        android:textColor="#FFF"
-        android:textSize="17sp" />
-
 
     <TextView
         android:id="@+id/fav_title"
@@ -35,8 +23,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         tools:listitem="@layout/flash_card_square" />
+
 
 </LinearLayout>

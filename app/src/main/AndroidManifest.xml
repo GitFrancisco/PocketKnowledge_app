@@ -29,6 +29,7 @@
         <activity android:name=".RegisterScreenActivity" />
         <activity android:name=".all_flashcards_screenActivity" />
         <activity android:name=".inside_flashcardActivity"/>
+        <activity android:name=".MainFragmentActivity"/>
         <activity android:name=".CreateFlashcardActivity"/>
     </application>
 
