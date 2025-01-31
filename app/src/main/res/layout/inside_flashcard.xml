@@ -30,7 +30,6 @@
         />
 
 
-
     <LinearLayout
         android:id="@+id/first_layout"
         android:layout_width="match_parent"

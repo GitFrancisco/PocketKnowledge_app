@@ -2,11 +2,13 @@ package pt.ipt.dam.pocketknowledge
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pt.ipt.dam.pocketknowledge.model.flashcards
+import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,6 +19,7 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
     private var items = mutableListOf<String>() // Lista de flashcards
     private lateinit var adapter: ItemAdapter // Adapter
     private lateinit var recyclerView: RecyclerView // RecyclerView
+    private lateinit var createButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +34,22 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
         adapter = ItemAdapter(items, this)
         recyclerView.adapter = adapter
 
+        // Inicializar o botão de criar flashcard
+        createButton = findViewById(R.id.CreateFlashcardButton)
+        createButton.setOnClickListener {
+            val intent = Intent(this, CreateFlashcardActivity::class.java)
+            startActivity(intent)
+        }
+
         // Buscar os flashcards da API
         fetchFlashcards()
+        // Buscar os dados do utilizador autenticado
+        fetchUserData()
     }
 
     // Implementação do onclick
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item clicado: ${items[position]}", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Item clicado: ${items[position]}", Toast.LENGTH_SHORT).show()
         // Implementação a abertura do flashcard (+1 no ID para corresponder com a base de dados)
         val intent = Intent(this, inside_flashcardActivity::class.java)
 
@@ -72,6 +84,40 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
             }
             override fun onFailure(call: Call<List<flashcards>>, t: Throwable) {
                 Toast.makeText(applicationContext, "Falha na conexão...", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchUserData() {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Criar uma instância do RetrofitInitializer e acessar o serviço da API
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada à API para obter os dados do utilizador autenticado
+        apiService.getUserData("Bearer $token").enqueue(object : Callback<userData> {
+            override fun onResponse(call: Call<userData>, response: Response<userData>) {
+                if (response.isSuccessful) {
+                    // Obter os dados do utilizador
+                    val userData = response.body()
+                    // Verificar se os dados do utilizador não são nulos
+                    if (userData != null) {
+                        val role = userData.Role
+                        if (role == "admin"){
+                            // Se o utilizador for administrador, exibir o botão de criar flashcard
+                            createButton.visibility = Button.VISIBLE
+                        }
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // Exibe uma mensagem de erro ao utilizador
+            override fun onFailure(call: Call<userData>, t: Throwable) {
+                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
             }
         })
     }

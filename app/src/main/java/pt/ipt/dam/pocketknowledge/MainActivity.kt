@@ -28,6 +28,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // Verifica se já existe um token de autenticação em SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+        if (token != null) {
+            // Verifica se o token ainda é válido
+            verifyTokenAndRedirect(token)
+        }
+
+
         // Elemento input email
         val emailInput: EditText = findViewById(R.id.emailField)
         // Elemento input password
@@ -103,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     // Exibe uma mensagem de de boas-vindas ao utilizador
     private fun welcomeUser() {
-        // Recuperar o token salvo no SharedPreferences
+        // Recuperar o token guardado no SharedPreferences
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
 
@@ -136,5 +145,29 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Token não encontrado. Faça login novamente.", Toast.LENGTH_SHORT).show()
         }
     }
+
+    // Função para verificar se o token ainda é válido e redirecionar o utilizador
+    private fun verifyTokenAndRedirect(token: String) {
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada assíncrona para verificar se o token é válido
+        apiService.getUserData("Bearer $token").enqueue(object : Callback<userData> {
+            override fun onResponse(call: Call<userData>, response: Response<userData>) {
+                if (response.isSuccessful && response.body() != null) {
+                    // Token válido, redirecionar o utilizador
+                    val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                    startActivity(intent)
+                    finish() // Finaliza a MainActivity para evitar que o utilizador volte ao login
+                } else {
+                    Toast.makeText(applicationContext, "Sessão expirada. Faça login novamente.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<userData>, t: Throwable) {
+                Toast.makeText(applicationContext, "Erro ao verificar sessão. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 }
 

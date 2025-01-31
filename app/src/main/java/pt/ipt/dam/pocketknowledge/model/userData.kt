@@ -5,6 +5,6 @@ data class userData(
     val id: Int,
     val username: String,
     val email: String,
-    val role: String,
+    val Role: String,
     val created_at: String
 )

@@ -51,6 +51,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/text_field_round"
         android:hint="Password"
+        android:inputType="textPassword"
         android:padding="12dp"
         />
 
@@ -62,6 +63,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/text_field_round"
         android:hint="Confirme a Password"
+        android:inputType="textPassword"
         android:padding="12dp"
         />
 

@@ -1,5 +1,6 @@
 package pt.ipt.dam.pocketknowledge.retrofit.service
 
+import pt.ipt.dam.pocketknowledge.model.addFlashcard
 import pt.ipt.dam.pocketknowledge.model.authResponse
 import pt.ipt.dam.pocketknowledge.model.flashcards
 import pt.ipt.dam.pocketknowledge.model.userData
@@ -34,6 +35,10 @@ interface api_service {
     // Obter um flashcard por ID
     @GET("api/flashcards/find/{id}")
     fun getFlashcardById(@Path("id") id: Int): Call<flashcards>
+
+    // Criar um novo flashcard
+    @POST("api/flashcards/create")
+    fun createFlashcard(@Body addFlashcard: addFlashcard): Call<Void>
 
     // ### TEMAS ###
 }

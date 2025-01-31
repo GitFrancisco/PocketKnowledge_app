@@ -1,6 +1,7 @@
 package pt.ipt.dam.pocketknowledge
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import android.hardware.Sensor
@@ -11,7 +12,7 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -81,6 +82,13 @@ class inside_flashcardActivity : AppCompatActivity() {
         question_text = findViewById(R.id.question_text)
         // Elemento answer
         answer_text = findViewById(R.id.answer_text)
+
+        // Elemento Botao de voltar
+        val backButton : Button = findViewById(R.id.BackButtonAllFlashcards)
+        backButton.setOnClickListener(){
+            val intent = Intent(this, all_flashcards_screenActivity::class.java)
+            startActivity(intent)
+        }
 
         // Obter o ID do Flashcard passado pela Intent
         val flashcardId = intent.getIntExtra("FLASHCARD_ID", -1)
