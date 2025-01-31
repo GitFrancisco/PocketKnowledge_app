@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -61,7 +62,15 @@ class MainActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.registerScreenButton)
         // Configurar o botao para abrir outra activity
         registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterScreenActivity::class.java)
+            val intent = Intent(this, all_flashcards_screenActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Elemento botao "about us"
+        val aboutUsButton: ImageButton = findViewById(R.id.aboutUsButton)
+        // Configurar o botao para abrir outra activity
+        aboutUsButton.setOnClickListener {
+            val intent = Intent(this, AboutUsActivity::class.java)
             startActivity(intent)
         }
 
@@ -83,10 +92,8 @@ class MainActivity : AppCompatActivity() {
                     if (authResponse != null) {
                         // Guarda a JWT Token no SharedPreferences
                         saveToken(authResponse.token)
-                        // Exibe um Toast de boas-vindas ao utilizador
-                        welcomeUser()
                         // Redireciona o utilizador para a activity de flashcards
-                        val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                        val intent = Intent(applicationContext, MainFragmentActivity::class.java)
                         startActivity(intent)
                     }
                 } else {
@@ -110,42 +117,6 @@ class MainActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    // Exibe uma mensagem de de boas-vindas ao utilizador
-    private fun welcomeUser() {
-        // Recuperar o token guardado no SharedPreferences
-        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val token = sharedPreferences.getString("auth_token", null)
-
-        if (token != null) {
-            // Criar uma instância do RetrofitInitializer e acessar o serviço da API
-            val apiService = RetrofitInitializer().apiService()
-
-            // Fazer uma chamada à API para obter os dados do utilizador autenticado
-            apiService.getUserData("Bearer $token").enqueue(object : Callback<userData> {
-                override fun onResponse(call: Call<userData>, response: Response<userData>) {
-                    if (response.isSuccessful) {
-                        // Obter os dados do utilizador
-                        val userData = response.body()
-                        // Verificar se os dados do utilizador não são nulos
-                        if (userData != null) {
-                            // Exibir o nome do usuário no Toast
-                            Toast.makeText(applicationContext, "Bem-vindo, ${userData.username}!", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                // Exibe uma mensagem de erro ao utilizador
-                override fun onFailure(call: Call<userData>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Erro ao conectar ao servidor.", Toast.LENGTH_SHORT).show()
-                }
-            })
-        } else {
-            Toast.makeText(applicationContext, "Token não encontrado. Faça login novamente.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     // Função para verificar se o token ainda é válido e redirecionar o utilizador
     private fun verifyTokenAndRedirect(token: String) {
         val apiService = RetrofitInitializer().apiService()
@@ -155,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<userData>, response: Response<userData>) {
                 if (response.isSuccessful && response.body() != null) {
                     // Token válido, redirecionar o utilizador
-                    val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
+                    val intent = Intent(applicationContext, MainFragmentActivity::class.java)
                     startActivity(intent)
                     finish() // Finaliza a MainActivity para evitar que o utilizador volte ao login
                 } else {

@@ -3,6 +3,7 @@ package pt.ipt.dam.pocketknowledge.retrofit.service
 import pt.ipt.dam.pocketknowledge.model.addFlashcard
 import pt.ipt.dam.pocketknowledge.model.authResponse
 import pt.ipt.dam.pocketknowledge.model.flashcards
+import pt.ipt.dam.pocketknowledge.model.themes
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.model.userLogin
 import pt.ipt.dam.pocketknowledge.model.userRegister
@@ -46,4 +47,7 @@ interface api_service {
     fun deleteFlashcard(@Path("id") id: Int): Call<Void>
 
     // ### TEMAS ###
+    // Obter todos os temas
+    @GET("api/themes/list")
+    fun getThemes(): Call<List<themes>>
 }

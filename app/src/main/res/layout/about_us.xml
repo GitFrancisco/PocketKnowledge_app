@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -59,8 +60,9 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:padding="4dp"/>
+
         <Button
-            android:id="@+id/BackButtonAllFlashcards"
+            android:id="@+id/BackButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
@@ -70,10 +72,8 @@
             android:text="⬅ voltar"
             android:textColor="#FFF"
             android:textSize="16sp"
-            app:layout_constraintMarginStart="16dp"
-            app:layout_constraintMarginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp" />
     </LinearLayout>
 
 </LinearLayout>

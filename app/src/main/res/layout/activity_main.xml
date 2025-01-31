@@ -10,12 +10,12 @@
 
 
     <ImageButton
-        android:id="@+id/favoriteButtonInside"
+        android:id="@+id/aboutUsButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="right"
         android:background="@drawable/button_favorite_background"
-        android:contentDescription="Informaçoes pessoais"
+        android:contentDescription="Informações pessoais"
         android:src="@drawable/baseline_info_24" />
 
 

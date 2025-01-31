@@ -17,7 +17,7 @@
         android:fontFamily="serif"
         android:gravity="center"
         android:padding="15dp"
-        android:text="Favorites"
+        android:text="Favoritos"
         android:textColor="#00cccc"
         android:textSize="40sp"
         android:textStyle="bold" />

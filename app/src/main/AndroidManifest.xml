@@ -31,6 +31,7 @@
         <activity android:name=".inside_flashcardActivity"/>
         <activity android:name=".MainFragmentActivity"/>
         <activity android:name=".CreateFlashcardActivity"/>
+        <activity android:name=".AboutUsActivity"/>
     </application>
 
 </manifest>
