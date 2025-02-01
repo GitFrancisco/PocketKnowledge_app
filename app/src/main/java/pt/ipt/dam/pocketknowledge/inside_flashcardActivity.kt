@@ -9,6 +9,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -18,6 +19,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import pt.ipt.dam.pocketknowledge.model.addFavorite
+import pt.ipt.dam.pocketknowledge.model.favorites
 import pt.ipt.dam.pocketknowledge.model.flashcards
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
@@ -41,6 +44,7 @@ class inside_flashcardActivity : AppCompatActivity() {
     private lateinit var answer_text: TextView // Elemento resposta
     private lateinit var deleteButton: Button // Elemento botão de apagar
 
+    // ID do flashcard
     private var flashcardID by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,9 +108,15 @@ class inside_flashcardActivity : AppCompatActivity() {
         }
 
         fetchUserData()
+        checkIfFavorite(flashcardId) // Verifica se o flashcard está nos favoritos
     }
 
     private fun toggleFavorite() {
+        if (isFavorited) {
+            removeFlashcardFromFavorites(flashcardID) // Remove dos favoritos
+        } else {
+            addFlashcardToFavorites(flashcardID) // Adiciona aos favoritos
+        }
         // Obtém o drawable do botão e verifica se é uma animação
         val drawable = favoriteButton.drawable
         if (drawable is AnimatedVectorDrawable) {
@@ -201,6 +211,7 @@ class inside_flashcardActivity : AppCompatActivity() {
         })
     }
 
+    // Função para apagar um flashcard
     private fun deleteFlashcard(id: Int) {
         val call = RetrofitInitializer().apiService().deleteFlashcard(id)
 
@@ -260,4 +271,113 @@ class inside_flashcardActivity : AppCompatActivity() {
             }
         })
     }
+
+    // Função para verificar se um flashcard está nos favoritos
+    private fun checkIfFavorite(flashcardId: Int) {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        if (token.isNullOrEmpty()) {
+            Log.e("FAVORITE_CHECK", "Token JWT não encontrado.")
+            return
+        }
+
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada à API para obter a lista de favoritos
+        apiService.getFavorites("Bearer $token").enqueue(object : Callback<List<favorites>> {
+            override fun onResponse(call: Call<List<favorites>>, response: Response<List<favorites>>) {
+                if (response.isSuccessful) {
+                    val favorites = response.body()
+
+                    // Verifica se o flashcard está na lista de favoritos
+                    isFavorited = favorites?.any { it.flashcard_id == flashcardId } == true
+
+                    // Atualiza o ícone do botão com base no estado
+                    favoriteButton.setImageResource(
+                        if (isFavorited) R.drawable.baseline_star_24 else R.drawable.baseline_star_border_24
+                    )
+                } else {
+                    Log.e("API_ERROR", "Erro ao buscar favoritos: ${response.code()} - ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<favorites>>, t: Throwable) {
+                Log.e("API_ERROR", "Erro de conexão ao buscar favoritos: ${t.message}")
+            }
+        })
+    }
+
+
+
+    // Adicionar um flashcard aos favoritos
+    private fun addFlashcardToFavorites(flashcardId: Int) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Criar objeto AddFavorite para enviar no corpo da requisição
+        val addFavorite = addFavorite(flashcardId)
+
+        // Criar uma instância do RetrofitInitializer e acessar o serviço da API
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada à API para adicionar um flashcard aos favoritos
+        apiService.addToFavorites("Bearer $token", addFavorite).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    // Sucesso
+                    Toast.makeText(applicationContext, "Flashcard adicionado aos favoritos!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Falha ao adicionar o flashcard aos favoritos
+                    Toast.makeText(applicationContext, "Erro ao adicionar flashcard aos favoritos.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                // Falha de conexão ou erro desconhecido
+                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Remover um flashcard dos favoritos
+    private fun removeFlashcardFromFavorites(id: Int) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        // Criar uma instância do RetrofitInitializer e acessar o serviço da API
+        val apiService = RetrofitInitializer().apiService()
+
+        // Fazer uma chamada à API para remover um flashcard dos favoritos
+        apiService.removeFromFavorites("Bearer $token", id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    // Sucesso
+                    Toast.makeText(applicationContext, "Flashcard removido dos favoritos!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Falha ao remover o flashcard dos favoritos
+                    Toast.makeText(applicationContext, "Erro ao remover flashcard dos favoritos.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                // Falha de conexão ou erro desconhecido
+                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 }
