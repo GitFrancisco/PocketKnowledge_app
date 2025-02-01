@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+
+    <!-- Titulo do Curso -->
+
+
+
+    <TextView
+        android:id="@+id/course_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Engenharia Informática"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp"/>
+
+    <!-- Subtitulo -->
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Desenvolvimento de Aplicações Móveis - 3º Ano"
+        android:textSize="18sp"
+
+        android:gravity="center"
+        android:paddingBottom="16dp"/>
+
+
+    <!-- Informações dos Alunos -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/student1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daniel Marques - 24847"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:padding="4dp"/>
+
+        <TextView
+            android:id="@+id/student2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Francisco Pires - 24865"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:padding="4dp"/>
+
+        <Button
+            android:id="@+id/BackButton"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="#00b3b3"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="⬅ voltar"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+</LinearLayout>

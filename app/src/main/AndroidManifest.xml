@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissoes para permitir o uso da API -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,6 +29,9 @@
         <activity android:name=".RegisterScreenActivity" />
         <activity android:name=".all_flashcards_screenActivity" />
         <activity android:name=".inside_flashcardActivity"/>
+        <activity android:name=".MainFragmentActivity"/>
+        <activity android:name=".CreateFlashcardActivity"/>
+        <activity android:name=".AboutUsActivity"/>
     </application>
 
 </manifest>

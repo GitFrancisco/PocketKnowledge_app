@@ -8,16 +8,6 @@
     android:background="#F5F5F5">
 
 
-    <Button
-        android:id="@+id/BackButtonAllFlashcards"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#00b3b3"
-        android:padding="6dp"
-        android:text="⬅ voltar"
-        android:textColor="#FFF"
-        android:textSize="17sp" />
-
 
     <TextView
         android:id="@+id/fav_title"
@@ -27,16 +17,23 @@
         android:fontFamily="serif"
         android:gravity="center"
         android:padding="15dp"
-        android:text="Favorites"
+        android:text="Favoritos"
         android:textColor="#00cccc"
         android:textSize="40sp"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        tools:listitem="@layout/flash_card_square" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/flash_card_square" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

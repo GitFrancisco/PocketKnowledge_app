@@ -8,6 +8,17 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+
+    <ImageButton
+        android:id="@+id/aboutUsButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="right"
+        android:background="@drawable/button_favorite_background"
+        android:contentDescription="Informações pessoais"
+        android:src="@drawable/baseline_info_24" />
+
+
     <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
