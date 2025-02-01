@@ -77,8 +77,11 @@ interface api_service {
         @Path("id") id: Int
     ): Call<Void>
 
-
     // Obter os flashcards favoritos
     @GET("api/flashcards/listFavorites")
     fun getFavorites(@Header("Authorization") token: String): Call<List<favorites>>
+
+    // Obter a lista de objetos flashcards favoritos
+    @GET("api/flashcards/listFavoriteFlashcards")
+    fun getFavoriteFlashcards(@Header("Authorization") token: String): Call<List<flashcards>>
 }
