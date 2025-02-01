@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pt.ipt.dam.pocketknowledge.ItemAdapter
 import pt.ipt.dam.pocketknowledge.R
 import pt.ipt.dam.pocketknowledge.all_flashcards_screenActivity
@@ -23,10 +24,13 @@ class FavoritesFragment : Fragment(R.layout.favorite_flashcards_screen), ItemAda
     private var items = mutableListOf<flashcards>() // Lista de flashcards
     private lateinit var adapter: ItemAdapter // Adapter
     private lateinit var recyclerView: RecyclerView // RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout // SwipeRefreshLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inicializar o SwipeRefreshLayout
+        swipeRefresh = view.findViewById(R.id.swipeRefresh)
 
         // Inicializar o RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
@@ -39,6 +43,12 @@ class FavoritesFragment : Fragment(R.layout.favorite_flashcards_screen), ItemAda
 
         // Buscar os temas da API e atualizar a lista
         fetchFavorites()
+
+        // Configura o refresh ao deslizar para baixo
+        swipeRefresh.setOnRefreshListener {
+            fetchFavorites()// Atualiza os dados da API
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     // Implementação do onclickx
@@ -79,7 +89,7 @@ class FavoritesFragment : Fragment(R.layout.favorite_flashcards_screen), ItemAda
                         adapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Erro ao carregar flashcards favoritos...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Não existem favoritos...", Toast.LENGTH_SHORT).show()
                 }
             }
 

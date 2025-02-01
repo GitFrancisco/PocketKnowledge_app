@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pt.ipt.dam.pocketknowledge.model.flashcards
 import pt.ipt.dam.pocketknowledge.model.userData
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
@@ -19,11 +20,15 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
     private var items = mutableListOf<flashcards>() // Lista de flashcards
     private lateinit var adapter: ItemAdapter // Adapter
     private lateinit var recyclerView: RecyclerView // RecyclerView
-    private lateinit var createButton: Button
+    private lateinit var createButton: Button // Botão de criar flashcard
+    private lateinit var swipeRefresh: SwipeRefreshLayout // SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.all_flashcards_screen)
+
+        // Inicializar o SwipeRefreshLayout
+        swipeRefresh = findViewById(R.id.swipeRefresh)
 
         // Inicializar o RecyclerView
         recyclerView = findViewById(R.id.recycler_view)
@@ -49,6 +54,13 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
 
         // Buscar os flashcards da API
         fetchFlashcards(themeId)
+
+        // Configura o refresh ao deslizar para baixo
+        swipeRefresh.setOnRefreshListener {
+            fetchFlashcards(themeId)// Atualiza os dados da API
+            swipeRefresh.isRefreshing = false
+        }
+
         // Buscar os dados do utilizador autenticado
         fetchUserData()
     }
