@@ -1,3 +1,4 @@
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -53,8 +54,17 @@ class CategoriesFragment : Fragment(R.layout.categories_screen), ItemAdapter.OnI
     // Buscar os temas da API
     // Função para buscar os flashcards da API
     private fun fetchThemes() {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            return
+        }
+
         // Fazer a chamada à API
-        val call = RetrofitInitializer().apiService().getThemes()
+        val call = RetrofitInitializer().apiService().getThemes("Bearer $token")
 
         call.enqueue(object : Callback<List<themes>> {
             // Callbacks

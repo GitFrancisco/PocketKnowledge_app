@@ -184,8 +184,17 @@ class inside_flashcardActivity : AppCompatActivity() {
 
     // Função para buscar um flashcard específico da API
     private fun fetchFlashcardById(flashcardId: Int) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
         // Fazer a chamada à API
-        val call = RetrofitInitializer().apiService().getFlashcardById(flashcardId)
+        val call = RetrofitInitializer().apiService().getFlashcardById("Bearer $token", flashcardId)
 
         // Callbacks
         call.enqueue(object : Callback<flashcards> {
@@ -213,7 +222,17 @@ class inside_flashcardActivity : AppCompatActivity() {
 
     // Função para apagar um flashcard
     private fun deleteFlashcard(id: Int) {
-        val call = RetrofitInitializer().apiService().deleteFlashcard(id)
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val call = RetrofitInitializer().apiService().deleteFlashcard("Bearer $token", id)
 
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

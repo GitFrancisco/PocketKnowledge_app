@@ -36,33 +36,33 @@ interface api_service {
 
     // ### FLASHCARDS ###
     // Obter todos os flashcards
-    @GET("api/flashcards/list")
-    fun getFlashcards(): Call<List<flashcards>>
+    //@GET("api/flashcards/list")
+    //fun getFlashcards(): Call<List<flashcards>>
 
     // Obter um flashcard por ID
     @GET("api/flashcards/find/{id}")
-    fun getFlashcardById(@Path("id") id: Int): Call<flashcards>
+    fun getFlashcardById(@Header("Authorization") token: String, @Path("id") id: Int): Call<flashcards>
 
     // Criar um novo flashcard
     @POST("api/flashcards/create")
-    fun createFlashcard(@Body addFlashcard: addFlashcard): Call<createFlashcardResponse>
+    fun createFlashcard(@Header("Authorization") token: String, @Body addFlashcard: addFlashcard): Call<createFlashcardResponse>
 
     // Apagar um flashcard
     @DELETE("api/flashcards/delete/{id}")
-    fun deleteFlashcard(@Path("id") id: Int): Call<Void>
+    fun deleteFlashcard(@Header("Authorization") token: String, @Path("id") id: Int): Call<Void>
 
     // ### TEMAS ###
     // Obter todos os temas
     @GET("api/themes/list")
-    fun getThemes(): Call<List<themes>>
+    fun getThemes(@Header("Authorization") token: String): Call<List<themes>>
 
     // Obter os flashcards de um tema
     @GET("api/themes/{id}/flashcards")
-    fun getFlashcardsByTheme(@Path("id") id: Int): Call<List<flashcards>>
+    fun getFlashcardsByTheme(@Header("Authorization") token: String, @Path("id") id: Int): Call<List<flashcards>>
 
     // Fazer o mapeamento de um flashcard para um tema
     @POST("api/themes/flashcard-theme/create")
-    fun mapFlashcardToTheme(@Body mapFlashcardToTheme: mapFlashcardToTheme ): Call<Void>
+    fun mapFlashcardToTheme(@Header("Authorization") token: String, @Body mapFlashcardToTheme: mapFlashcardToTheme ): Call<Void>
 
     // ### FAVORITOS ###
     // Adicionar um flashcard aos favoritos

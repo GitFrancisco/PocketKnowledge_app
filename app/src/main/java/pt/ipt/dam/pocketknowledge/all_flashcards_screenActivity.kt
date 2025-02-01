@@ -67,8 +67,17 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
 
     // Função para buscar os flashcards da API
     private fun fetchFlashcards(THEME_ID: Int) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
         // Fazer a chamada à API
-        val call = RetrofitInitializer().apiService().getFlashcardsByTheme(THEME_ID)
+        val call = RetrofitInitializer().apiService().getFlashcardsByTheme("Bearer $token",THEME_ID)
 
         call.enqueue(object : Callback<List<flashcards>> {
             // Callbacks

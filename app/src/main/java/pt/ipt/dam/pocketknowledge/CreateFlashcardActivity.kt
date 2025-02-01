@@ -53,6 +53,16 @@ class CreateFlashcardActivity : AppCompatActivity() {
 
     // Função para criar um flashcard
     private fun createFlashcard(question: String, answer: String) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // Criar uma instância do RetrofitInitializer e acessar o serviço da API
         val apiService = RetrofitInitializer().apiService()
 
@@ -60,7 +70,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
         val flashcard = addFlashcard(question, answer, userId)
 
         // Fazer uma chamada à API para criar um flashcard
-        apiService.createFlashcard(flashcard).enqueue(object : Callback<createFlashcardResponse> {
+        apiService.createFlashcard("Bearer $token", flashcard).enqueue(object : Callback<createFlashcardResponse> {
             override fun onResponse(call: Call<createFlashcardResponse>, response: Response<createFlashcardResponse>) {
                 if (response.isSuccessful) {
                     Toast.makeText(applicationContext, "Flashcard criado com sucesso.", Toast.LENGTH_SHORT).show()
@@ -127,6 +137,16 @@ class CreateFlashcardActivity : AppCompatActivity() {
     }
 
     private fun mapFlashcardToTheme(flashcardId : Int) {
+        // Recuperar o token guardado no SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        // Verifica se o token é nulo ou inválido
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // Criar uma instância do RetrofitInitializer e acessar o serviço da API
         val apiService = RetrofitInitializer().apiService()
 
@@ -135,7 +155,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
             pt.ipt.dam.pocketknowledge.model.mapFlashcardToTheme(flashcardId, themeId)
 
         // Fazer uma chamada à API para mapear um flashcard para um tema
-        apiService.mapFlashcardToTheme(mapFlashcard).enqueue(object : Callback<Void> {
+        apiService.mapFlashcardToTheme("Bearer $token", mapFlashcard).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
 
             }
