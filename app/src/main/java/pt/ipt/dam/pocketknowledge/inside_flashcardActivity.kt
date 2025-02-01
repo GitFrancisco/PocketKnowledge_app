@@ -240,9 +240,7 @@ class inside_flashcardActivity : AppCompatActivity() {
                     // Sucesso
                     Toast.makeText(applicationContext, "Flashcard apagado com sucesso!", Toast.LENGTH_SHORT).show()
 
-                    // Redireciona para o ecrã com todos os flashcards
-                    val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
-                    startActivity(intent)
+                    finish()
                 } else {
                     //O flashcard não foi encontrado ou outro problema
                     Toast.makeText(applicationContext, "Erro ao apagar flashcard.", Toast.LENGTH_SHORT).show()
