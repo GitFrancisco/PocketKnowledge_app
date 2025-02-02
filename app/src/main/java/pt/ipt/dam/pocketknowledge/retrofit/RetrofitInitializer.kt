@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitInitializer {
     private val retrofit = Retrofit.Builder()
         // Localhost do computador
-        .baseUrl("http://10.0.2.2:3000/")
+        .baseUrl("http://143.47.51.101:3000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
