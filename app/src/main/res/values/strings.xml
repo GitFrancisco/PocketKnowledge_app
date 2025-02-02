@@ -46,4 +46,5 @@
     <string name="defaultUser">Olá, utilizador!</string>
     <string name="erase">Apagar</string>
     <string name="changeFavoriteColor">Muda cor do botão dos favoritos</string>
+    <string name="UnknownError">Ocorreu um erro desconhecido</string>
 </resources>

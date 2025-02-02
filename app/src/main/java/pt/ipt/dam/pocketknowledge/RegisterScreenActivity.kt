@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
 import pt.ipt.dam.pocketknowledge.model.userRegister
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
 import retrofit2.Call
@@ -47,9 +48,20 @@ class RegisterScreenActivity : AppCompatActivity() {
 
     // Registar um novo utilizador
     private fun registerUser(username: String, email: String, password: String, passwordConfirmation: String) {
+
+        // Expressão regular para validar a password (mínimo de 8 caracteres, pelo menos uma letra, um número e um caractere especial)
+        val passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$.!%*?&]{8,}$".toRegex()
+
+
+        if (!passwordPattern.matches(password)) {
+            Toast.makeText(this, "Password com mínimo de 8 caracteres, incluindo letras, números e um especial.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (password != passwordConfirmation) {
             Toast.makeText(this, getString(R.string.differentPasswords), Toast.LENGTH_SHORT).show()
             return
+
         }
 
         // Criar um objeto userRegister
@@ -66,10 +78,12 @@ class RegisterScreenActivity : AppCompatActivity() {
                     // Mostrar mensagem de sucesso
                     Toast.makeText(applicationContext,
                         getString(R.string.userRegSucc), Toast.LENGTH_SHORT).show()
+                    finish()
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    Toast.makeText(applicationContext,
-                        getString(R.string.userRegError, errorBody), Toast.LENGTH_LONG).show()
+                    val errorMessage = JSONObject(errorBody).optString("error",
+                        getString(R.string.UnknownError))
+                    Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_LONG).show()
                 }
             }
             // Caso ocorra um erro
