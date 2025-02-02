@@ -2,7 +2,6 @@ package pt.ipt.dam.pocketknowledge
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -49,7 +48,7 @@ class RegisterScreenActivity : AppCompatActivity() {
     // Registar um novo utilizador
     private fun registerUser(username: String, email: String, password: String, passwordConfirmation: String) {
         if (password != passwordConfirmation) {
-            Toast.makeText(this, "As passwords não coincidem...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.differentPasswords), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -65,10 +64,12 @@ class RegisterScreenActivity : AppCompatActivity() {
                 // Verificar se o pedido foi bem sucedido
                 if (response.isSuccessful) {
                     // Mostrar mensagem de sucesso
-                    Toast.makeText(applicationContext, "Utilizador registado com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.userRegSucc), Toast.LENGTH_SHORT).show()
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    Toast.makeText(applicationContext, "Erro ao registar utilizador: $errorBody", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.userRegError, errorBody), Toast.LENGTH_LONG).show()
                 }
             }
             // Caso ocorra um erro

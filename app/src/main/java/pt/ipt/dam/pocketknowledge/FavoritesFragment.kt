@@ -1,6 +1,5 @@
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
@@ -10,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pt.ipt.dam.pocketknowledge.ItemAdapter
 import pt.ipt.dam.pocketknowledge.R
-import pt.ipt.dam.pocketknowledge.all_flashcards_screenActivity
 import pt.ipt.dam.pocketknowledge.inside_flashcardActivity
 import pt.ipt.dam.pocketknowledge.model.flashcards
-import pt.ipt.dam.pocketknowledge.model.themes
 import pt.ipt.dam.pocketknowledge.retrofit.RetrofitInitializer
 import retrofit2.Call
 import retrofit2.Callback
@@ -89,12 +86,13 @@ class FavoritesFragment : Fragment(R.layout.favorite_flashcards_screen), ItemAda
                         adapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Não existem favoritos...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.noFavorites), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<flashcards>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Falha na conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.connectionError, Toast.LENGTH_SHORT).show()
             }
         })
     }

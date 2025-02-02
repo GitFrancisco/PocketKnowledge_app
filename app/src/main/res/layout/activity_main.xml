@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:background="@drawable/text_field_round"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="12dp" />
 
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#00cccc"
         android:padding="12dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="#FFF" />
 
     <!-- Botao para levar ao ecra de registo -->
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#00b3b3"
         android:padding="12dp"
-        android:text="Ainda não tem conta? Registe-se!"
+        android:text="@string/regis_text"
         android:textColor="#FFF" />
 
 </LinearLayout>

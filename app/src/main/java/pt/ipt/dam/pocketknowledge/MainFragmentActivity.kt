@@ -85,13 +85,14 @@ class MainFragmentActivity : AppCompatActivity() {
                         val user = userData
                         textUser.text = "Bem-vindo, ${user.username}!"
                     } else {
-                        Toast.makeText(applicationContext, "Volte a fazer login.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,
+                            getString(R.string.redoLogin), Toast.LENGTH_SHORT).show()
                         //Redirecionar para a tela de login
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent)
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, R.string.userDataError, Toast.LENGTH_SHORT).show()
                     //Redirecionar para a tela de login
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
@@ -100,7 +101,7 @@ class MainFragmentActivity : AppCompatActivity() {
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<userData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.serverConnectFail), Toast.LENGTH_SHORT).show()
             }
         })
     }

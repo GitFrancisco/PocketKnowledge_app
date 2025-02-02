@@ -85,7 +85,7 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.errorAuth), Toast.LENGTH_SHORT).show()
             return
         }
         // Fazer a chamada à API
@@ -108,11 +108,13 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
                         adapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao carregar flashcards...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.errorFlashcard), Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<List<flashcards>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Falha na conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,
+                    getString(R.string.connectionError), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -140,13 +142,15 @@ class all_flashcards_screenActivity : AppCompatActivity(), ItemAdapter.OnItemCli
                         }
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.userDataError), Toast.LENGTH_SHORT).show()
                 }
             }
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<userData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,
+                    getString(R.string.serverConnectFail), Toast.LENGTH_SHORT).show()
             }
         })
     }
