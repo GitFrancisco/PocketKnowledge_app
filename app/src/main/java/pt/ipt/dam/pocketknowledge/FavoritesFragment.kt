@@ -43,7 +43,13 @@ class FavoritesFragment : Fragment(R.layout.favorite_flashcards_screen), ItemAda
 
         // Configura o refresh ao deslizar para baixo
         swipeRefresh.setOnRefreshListener {
-            fetchFavorites()// Atualiza os dados da API
+            // Limpar a lista
+            items.clear()
+            adapter = ItemAdapter(items.map { it.question }, this@FavoritesFragment)
+            // Atualizar o adapter
+            recyclerView.adapter = adapter
+            // Atualiza os dados da API
+            fetchFavorites()
             swipeRefresh.isRefreshing = false
         }
     }
