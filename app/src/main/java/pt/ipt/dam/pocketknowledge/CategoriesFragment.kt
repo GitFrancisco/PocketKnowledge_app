@@ -83,11 +83,12 @@ class CategoriesFragment : Fragment(R.layout.categories_screen), ItemAdapter.OnI
                         adapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Erro ao carregar temas...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.categoriesError), Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<List<themes>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Falha na conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),  getString(R.string.connectionError), Toast.LENGTH_SHORT).show()
             }
         })
     }

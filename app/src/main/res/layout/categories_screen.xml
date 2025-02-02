@@ -15,7 +15,7 @@
         android:fontFamily="serif"
         android:gravity="center"
         android:padding="15dp"
-        android:text="Categorias"
+        android:text="@string/categories"
         android:textColor="#00cccc"
         android:textSize="40sp"
         android:textStyle="bold" />

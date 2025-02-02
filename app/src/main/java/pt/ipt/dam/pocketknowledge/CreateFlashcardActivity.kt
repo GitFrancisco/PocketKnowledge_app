@@ -39,7 +39,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
                 if (question.isNotEmpty() && answer.isNotEmpty()) {
                     createFlashcard(question, answer)
                 } else {
-                    Toast.makeText(this, "Preencha todos os campos...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.fillUpAllCamps), Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -59,7 +59,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.errorAuth), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -73,10 +73,10 @@ class CreateFlashcardActivity : AppCompatActivity() {
         apiService.createFlashcard("Bearer $token", flashcard).enqueue(object : Callback<createFlashcardResponse> {
             override fun onResponse(call: Call<createFlashcardResponse>, response: Response<createFlashcardResponse>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "Flashcard criado com sucesso.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.SuccFlashcard), Toast.LENGTH_SHORT).show()
                     // Obter o ID do flashcard criado
                     val flashcardId = response.body()?.id
-                    Toast.makeText(applicationContext, "Flashcard ID: $flashcardId", Toast.LENGTH_SHORT).show()
                     if (flashcardId != null) {
                         // Mapear o flashcard para o tema
                         mapFlashcardToTheme(flashcardId)
@@ -85,12 +85,16 @@ class CreateFlashcardActivity : AppCompatActivity() {
                     val intent = Intent(applicationContext, MainFragmentActivity::class.java)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao criar flashcard.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.errorCreatFlashcards),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<createFlashcardResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.serverConnectFail, Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -118,20 +122,21 @@ class CreateFlashcardActivity : AppCompatActivity() {
                         if (role == "admin"){
                             userId = userData.id
                         } else {
-                            Toast.makeText(applicationContext, "Apenas administradores podem criar flashcards.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext,
+                                getString(R.string.adminCreateCards), Toast.LENGTH_SHORT).show()
                             // Redirecionar o utilizador para a activity de flashcards
                             val intent = Intent(applicationContext, all_flashcards_screenActivity::class.java)
                             startActivity(intent)
                         }
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, R.string.userDataError, Toast.LENGTH_SHORT).show()
                 }
             }
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<userData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.serverConnectFail, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -143,7 +148,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -161,7 +166,7 @@ class CreateFlashcardActivity : AppCompatActivity() {
             }
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.serverConnectFail, Toast.LENGTH_SHORT).show()
             }
         })
     }

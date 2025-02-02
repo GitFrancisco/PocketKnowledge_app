@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser(email, password)
             } else {
-                Toast.makeText(this, "Preencha todos os campos...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.FillAllCamps), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -98,13 +98,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     // Exibe uma mensagem de erro ao utilizador
-                    Toast.makeText(applicationContext, "Falha no login...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.FailLogin), Toast.LENGTH_SHORT).show()
                 }
             }
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<authResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao autenticar...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -130,12 +131,14 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish() // Finaliza a MainActivity para evitar que o utilizador volte ao login
                 } else {
-                    Toast.makeText(applicationContext, "Sessão expirada. Faça login novamente.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.SessionExpired), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<userData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao verificar sessão. Faça login novamente.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,
+                    getString(R.string.errorSessionsVerify), Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:gravity="center"
-        android:text="Criação de Flashcard"
+        android:text="@string/createFlashcard"
         android:textColor="#00cccc"
         android:textStyle="bold"
         android:fontFamily="serif"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/text_field_round"
-        android:hint="Pergunta"
+        android:hint="@string/question"
         android:padding="12dp"
         />
 
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/text_field_round"
-        android:hint="Resposta"
+        android:hint="@string/answer"
         android:padding="12dp"
         />
 
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#00cccc"
         android:padding="12dp"
-        android:text="Criar Flashcard"
+        android:text="@string/createFlashcard"
         android:textColor="#FFF" />
 
 </LinearLayout>

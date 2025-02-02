@@ -104,7 +104,7 @@ class inside_flashcardActivity : AppCompatActivity() {
         if (flashcardId != -1) {
             fetchFlashcardById(flashcardId)
         } else {
-            Toast.makeText(this, "Erro ao carregar flashcard", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.errorFlashcard, Toast.LENGTH_SHORT).show()
         }
 
         fetchUserData()
@@ -190,7 +190,7 @@ class inside_flashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             return
         }
         // Fazer a chamada à API
@@ -210,12 +210,13 @@ class inside_flashcardActivity : AppCompatActivity() {
                         flashcardID = flashcard.id
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Flashcard não encontrado.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.Noflashcard), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<flashcards>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro na conexão.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.connectionError, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -228,7 +229,7 @@ class inside_flashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -238,19 +239,20 @@ class inside_flashcardActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     // Sucesso
-                    Toast.makeText(applicationContext, "Flashcard apagado com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.eraseFlashcard), Toast.LENGTH_SHORT).show()
 
                     // Redirecionar para a página principal
                     val intent = Intent(applicationContext, MainFragmentActivity::class.java)
                     startActivity(intent)
                 } else {
                     //O flashcard não foi encontrado ou outro problema
-                    Toast.makeText(applicationContext, "Erro ao apagar flashcard.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, R.string.eraseFlashcard, Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 // Falha de conexão ou erro desconhecido
-                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.connectionError, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -280,13 +282,13 @@ class inside_flashcardActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Erro ao buscar dados do utilizador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, R.string.userDataError, Toast.LENGTH_SHORT).show()
                 }
             }
 
             // Exibe uma mensagem de erro ao utilizador
             override fun onFailure(call: Call<userData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erro ao conectar ao servidor. Reinicie a aplicação.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.serverConnectFail, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -337,7 +339,7 @@ class inside_flashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -352,16 +354,18 @@ class inside_flashcardActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     // Sucesso
-                    Toast.makeText(applicationContext, "Flashcard adicionado aos favoritos!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.favoriteFlashcardAdded), Toast.LENGTH_SHORT).show()
                 } else {
                     // Falha ao adicionar o flashcard aos favoritos
-                    Toast.makeText(applicationContext, "Erro ao adicionar flashcard aos favoritos.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.errorFavoriteAdd), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 // Falha de conexão ou erro desconhecido
-                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.connectionError), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -374,7 +378,7 @@ class inside_flashcardActivity : AppCompatActivity() {
 
         // Verifica se o token é nulo ou inválido
         if (token.isNullOrEmpty()) {
-            Toast.makeText(applicationContext, "Erro de autenticação. Faça login novamente.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, R.string.errorAuth, Toast.LENGTH_SHORT).show()
             return
         }
         // Criar uma instância do RetrofitInitializer e acessar o serviço da API
@@ -385,16 +389,18 @@ class inside_flashcardActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     // Sucesso
-                    Toast.makeText(applicationContext, "Flashcard removido dos favoritos!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.RemoveFavoritesFlashcard), Toast.LENGTH_SHORT).show()
                 } else {
                     // Falha ao remover o flashcard dos favoritos
-                    Toast.makeText(applicationContext, "Erro ao remover flashcard dos favoritos.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,
+                        getString(R.string.errorRemoveFlashcard), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 // Falha de conexão ou erro desconhecido
-                Toast.makeText(applicationContext, "Erro de conexão...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.connectionError), Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -10,7 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginLeft="153dp"
-        android:text="Apagar"
+        android:text="@string/erase"
         android:visibility="gone"
         />
 
@@ -20,7 +20,7 @@
         android:layout_height="60dp"
         android:src="@drawable/start_color_change"
         android:background="@drawable/button_favorite_background"
-        android:contentDescription="Muda cor do botão dos favoritos"
+        android:contentDescription="@string/changeFavoriteColor"
         android:layout_gravity="right"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:padding="24dp"
                 android:rotation="90"
-                android:text="Pergunta"
+                android:text="@string/question"
                 android:textColor="#FFFFFF"
                 android:textSize="44sp"
                 android:textStyle="bold" />
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="24dp"
-                android:text="Resposta"
+                android:text="@string/answer"
                 android:fontFamily="serif"
                 android:textSize="44sp"
                 android:textColor="#FFFFFF"
